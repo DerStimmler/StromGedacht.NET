@@ -4,7 +4,7 @@
 [![nuget version](https://img.shields.io/nuget/v/StromGedacht.NET)](https://www.nuget.org/packages/StromGedacht.NET/)
 [![nuget downloads](https://img.shields.io/nuget/dt/StromGedacht.NET)](https://www.nuget.org/packages/StromGedacht.NET/)
 ![build](https://github.com/DerStimmler/StromGedacht.NET/actions/workflows/build.yml/badge.svg)
-[![codecov](https://codecov.io/gh/DerStimmler/StromGedacht.NET/branch/master/graph/badge.svg?token=HL0P0ND9ZF)](https://codecov.io/gh/DerStimmler/StromGedacht.NET)
+[![codecov](https://codecov.io/gh/DerStimmler/StromGedacht.NET/branch/main/graph/badge.svg?token=8CCFM34SNC)](https://codecov.io/gh/DerStimmler/StromGedacht.NET)
 [![GitHub license](https://img.shields.io/github/license/DerStimmler/StromGedacht.NET)](https://github.com/DerStimmler/StromGedacht.NET/blob/master/LICENSE.md)
 
 C# client for the [StromGedacht](https://www.stromgedacht.de/) API
