@@ -103,4 +103,4 @@ The api is limited to about 6 requests per minute.
 
 ## Shoutout
 
-The used API is provided by [StromGedacht]((https://www.stromgedacht.de), TransnetBW GmbH.
+The used API is provided by [StromGedacht](https://www.stromgedacht.de), TransnetBW GmbH.
