@@ -54,6 +54,9 @@ var state = client.Now("70173");
 var state = await client.NowAsync("70173");
 ```
 
+If the api returns an error, this method returns `null`.
+This could happen if the zip code is invalid / not supported.
+
 ### Get states for time period
 
 You can fetch all states of a region for a specific time period by calling the `States`
@@ -72,6 +75,9 @@ var to = new DateTimeOffset(2023, 1, 3, 23, 59, 59, TimeSpan.FromHours(2));
 
 var states = await client.StatesAsync("70173", from, to);
 ```
+
+If the api returns an error, this method returns an empty list.
+This could happen if the zip code is invalid / not supported or the supported period is exceeded.
 
 ### Dependency Injection
 
