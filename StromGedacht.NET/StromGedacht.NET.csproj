@@ -17,7 +17,7 @@
         <PackageTags>C#, dotnet, nuget, csharp, power, package, library, StromGedacht, api, MIT, free</PackageTags>
         <Company>Stimmler</Company>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageVersion>1.0.0-beta</PackageVersion>
+        <PackageVersion>1.0.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
