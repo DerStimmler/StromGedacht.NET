@@ -11,6 +11,9 @@ public class StromGedachtClientTest
   {
     var mockHttp = new MockHttpMessageHandler();
 
+    mockHttp.When(
+        "https://api.stromgedacht.de/v1/states?zip=server-error&from=2023-05-14T00%3A00%3A00.0000000%2B02%3A00&to=2023-05-20T23%3A59%3A59.0000000%2B02%3A00")
+      .Respond(_ => new HttpResponseMessage(HttpStatusCode.InternalServerError));
     mockHttp.When("https://api.stromgedacht.de/v1/now?zip=server-error")
       .Respond(_ => new HttpResponseMessage(HttpStatusCode.InternalServerError));
     mockHttp.When("https://api.stromgedacht.de/v1/now?zip=70170").Respond(_ =>
@@ -106,12 +109,23 @@ public class StromGedachtClientTest
   }
 
   [Fact]
-  public void ServerError()
+  public void ServerErrorNow()
   {
     var client = new StromGedachtClient(GetMockedHttpClient());
 
-    var action = () => { client.Now("server-error"); };
+    var state = client.Now("server-error");
 
-    action.Should().Throw<HttpRequestException>();
+    state.Should().Be(null);
+  }
+
+  [Fact]
+  public void ServerErrorStates()
+  {
+    var client = new StromGedachtClient(GetMockedHttpClient());
+
+    var states = client.States("server-error", new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.FromHours(2)),
+      new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
+
+    states.Should().BeEmpty();
   }
 }
