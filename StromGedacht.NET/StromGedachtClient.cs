@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text.Json;
+﻿using System.Text.Json;
 using StromGedacht.NET.DTOs;
 using StromGedacht.NET.Models;
 using StromGedacht.NET.Utils;
@@ -25,21 +24,17 @@ public class StromGedachtClient
   }
 
   /// <summary>
-  /// Get current region state
+  ///   Get current region state
   /// </summary>
   /// <param name="zip"></param>
   /// <returns>Current region state</returns>
-  /// <exception cref="HttpRequestException"></exception>
-  /// <exception cref="InvalidDataException"></exception>
   public RegionState? Now(string zip) => NowAsync(zip).Result;
 
   /// <summary>
-  /// Get current region state
+  ///   Get current region state
   /// </summary>
   /// <param name="zip"></param>
   /// <returns>Current region state</returns>
-  /// <exception cref="HttpRequestException"></exception>
-  /// <exception cref="InvalidDataException"></exception>
   public async Task<RegionState?> NowAsync(string zip)
   {
     var uri = ApiAddresses.Now(zip);
@@ -48,23 +43,17 @@ public class StromGedachtClient
 
     var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-    if (response.StatusCode == HttpStatusCode.BadRequest)
-      return null;
-
     if (!response.IsSuccessStatusCode)
-      throw new HttpRequestException(content);
+      return null;
 
     var dto = JsonSerializer.Deserialize<NowDto>(content,
       new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-    if (dto is null)
-      throw new InvalidDataException("Couldn't deserialize JSON response.");
-
-    return dto.State;
-  } 
+    return dto!.State;
+  }
 
   /// <summary>
-  /// Get all region states in a specific time period
+  ///   Get all region states in a specific time period
   /// </summary>
   /// <param name="zip"></param>
   /// <param name="from"></param>
@@ -74,7 +63,7 @@ public class StromGedachtClient
     StatesAsync(zip, from, to).Result;
 
   /// <summary>
-  /// Get all region states in a specific time period
+  ///   Get all region states in a specific time period
   /// </summary>
   /// <param name="zip"></param>
   /// <param name="from"></param>
@@ -88,19 +77,13 @@ public class StromGedachtClient
 
     var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-    if (response.StatusCode == HttpStatusCode.BadRequest)
+    if (!response.IsSuccessStatusCode)
       return Array.Empty<RegionStatePeriod>();
 
-    if (!response.IsSuccessStatusCode)
-      throw new HttpRequestException(content);
-    
     var dto = JsonSerializer.Deserialize<StatesDto>(content,
       new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-    if (dto is null)
-      throw new InvalidDataException("Couldn't deserialize JSON response.");
-
-    return dto.States
+    return dto!.States
       .ToList()
       .AsReadOnly();
   }
