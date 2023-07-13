@@ -73,6 +73,37 @@ public class StromGedachtClientTest
     StatesAssertions(states);
   }
 
+  [Fact]
+  public void NoData()
+  {
+    var client = new StromGedachtClient(GetMockedHttpClient());
+
+    var state = client.Now("70170");
+
+    state.Should().BeNull();
+  }
+
+  [Fact]
+  public void ServerErrorNow()
+  {
+    var client = new StromGedachtClient(GetMockedHttpClient());
+
+    var state = client.Now("server-error");
+
+    state.Should().BeNull();
+  }
+
+  [Fact]
+  public void ServerErrorStates()
+  {
+    var client = new StromGedachtClient(GetMockedHttpClient());
+
+    var states = client.States("server-error", new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.FromHours(2)),
+      new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
+
+    states.Should().BeEmpty();
+  }
+
   private static void StatesAssertions(IReadOnlyList<RegionStatePeriod> states)
   {
     states.Should().HaveCount(5);
@@ -96,36 +127,5 @@ public class StromGedachtClientTest
     states[4].State.Should().Be(RegionState.Green);
     states[4].From.Should().Be(new DateTimeOffset(2023, 5, 18, 0, 0, 0, TimeSpan.FromHours(2)));
     states[4].To.Should().Be(new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
-  }
-
-  [Fact]
-  public void NoData()
-  {
-    var client = new StromGedachtClient(GetMockedHttpClient());
-
-    var states = client.Now("70170");
-
-    states.Should().Be(null);
-  }
-
-  [Fact]
-  public void ServerErrorNow()
-  {
-    var client = new StromGedachtClient(GetMockedHttpClient());
-
-    var state = client.Now("server-error");
-
-    state.Should().Be(null);
-  }
-
-  [Fact]
-  public void ServerErrorStates()
-  {
-    var client = new StromGedachtClient(GetMockedHttpClient());
-
-    var states = client.States("server-error", new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.FromHours(2)),
-      new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
-
-    states.Should().BeEmpty();
   }
 }
