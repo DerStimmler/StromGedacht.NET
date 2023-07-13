@@ -107,6 +107,12 @@ public class HomeController : ControllerBase
 
 The api is limited to about 6 requests per minute.
 
+## Related
+
+Here are some related projects:
+
+- [ts-stromgedacht](https://github.com/DerStimmler/ts-stromgedacht): TypeScript version of this library
+
 ## Shoutout
 
 The used API is provided by [StromGedacht](https://www.stromgedacht.de), TransnetBW GmbH.
