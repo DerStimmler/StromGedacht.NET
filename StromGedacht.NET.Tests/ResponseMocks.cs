@@ -43,4 +43,49 @@ public static class ResponseMocks
   public const string NoData = """
                                "No data is available for the specified zip code (76130)."
                                """;
+
+  public const string Forecast = """
+                               {
+                                 "load": [
+                                   {
+                                     "dateTime": "2023-05-14T00:00:00.000Z",
+                                     "value": 8453.12
+                                   },
+                                   {
+                                     "dateTime": "2023-05-14T00:01:00.000Z",
+                                     "value": 8455
+                                   }
+                                 ],
+                                 "renewableEnergy": [
+                                   {
+                                     "dateTime": "2023-05-14T00:00:00.000Z",
+                                     "value": 8453.12
+                                   },
+                                   {
+                                     "dateTime": "2023-05-14T00:01:00.000Z",
+                                     "value": 8455
+                                   }
+                                 ],
+                                 "residualLoad": [
+                                   {
+                                     "dateTime": "2023-05-14T00:00:00.000Z",
+                                     "value": 8453.12
+                                   },
+                                   {
+                                     "dateTime": "2023-05-14T00:01:00.000Z",
+                                     "value": 8455
+                                   }
+                                 ],
+                                 "superGreenThreshold": [
+                                   {
+                                     "dateTime": "2023-05-14T00:00:00.000Z",
+                                     "value": 8453.12
+                                   },
+                                   {
+                                     "dateTime": "2023-05-14T00:01:00.000Z",
+                                     "value": 8455
+                                   }
+                                 ]
+                               }
+                               """;
 }
