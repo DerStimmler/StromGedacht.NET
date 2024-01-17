@@ -138,7 +138,7 @@ public class StromGedachtClientTest
     var forecast = client.Forecast("70173", new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.FromHours(2)),
       new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
 
-    ForecastAssertions(forecast);
+    ForecastAssertions(forecast!);
   }
 
   [Fact]
@@ -149,7 +149,7 @@ public class StromGedachtClientTest
     var forecast = await client.ForecastAsync("70173", new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.FromHours(2)),
       new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
 
-    ForecastAssertions(forecast);
+    ForecastAssertions(forecast!);
   }
 
   private static void StatesAssertions(IReadOnlyList<RegionStatePeriod> states)
