@@ -1,8 +1,6 @@
-﻿using StromGedacht.NET.Models;
-
-namespace StromGedacht.NET.DTOs;
+﻿namespace StromGedacht.NET.DTOs;
 
 internal record StatesDto
 {
-  public IEnumerable<RegionStatePeriod> States { get; set; } = null!;
+  public IEnumerable<RegionStatePeriodDto> States { get; set; } = Enumerable.Empty<RegionStatePeriodDto>();
 }

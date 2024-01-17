@@ -84,6 +84,12 @@ public class StromGedachtClient
       new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
     return dto!.States
+      .Select(state => new RegionStatePeriod
+      {
+        State = state.State,
+        From = state.From,
+        To = state.To
+      })
       .ToList()
       .AsReadOnly();
   }
@@ -120,6 +126,12 @@ public class StromGedachtClient
       new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
     return dto!.States
+      .Select(state => new RegionStatePeriod
+      {
+        State = state.State,
+        From = state.From,
+        To = state.To
+      })
       .ToList()
       .AsReadOnly();
   }
