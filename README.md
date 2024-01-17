@@ -97,6 +97,25 @@ var states = await client.StatesAsync("70173", hoursInPast, hoursInFuture);
 If the api returns an error, this method returns an empty list.
 This could happen if the zip code is invalid / not supported or the supported period is exceeded.
 
+### Get forecast
+
+You can fetch the forecast of a region for a specific time period by calling the `Forecast`
+/ `ForecastAsync` methods and passing the zip code of the region, the start time and end time.
+
+```csharp
+var from = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.FromHours(2));
+var to = new DateTimeOffset(2023, 1, 3, 23, 59, 59, TimeSpan.FromHours(2));
+
+var forecast = client.Forecast("70173", from, to);
+```
+
+```csharp
+var from = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.FromHours(2));
+var to = new DateTimeOffset(2023, 1, 3, 23, 59, 59, TimeSpan.FromHours(2));
+
+var forecast = await client.ForecastAsync("70173", from, to);
+```
+
 ### Dependency Injection
 
 You can register the `StromGedachtClient` in your Startup with a typed `HttpClient`.
