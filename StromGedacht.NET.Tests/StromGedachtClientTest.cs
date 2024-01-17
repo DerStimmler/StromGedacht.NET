@@ -25,6 +25,9 @@ public class StromGedachtClientTest
     mockHttp.When(
         "https://api.stromgedacht.de/v1/statesRelative?zip=70173&hoursInPast=24&hoursInFuture=48")
       .Respond("application/json", ResponseMocks.States);
+    mockHttp.When(
+        "https://api.stromgedacht.de/v1/forecast?zip=70173&from=2023-05-14T00%3A00%3A00.0000000%2B02%3A00&to=2023-05-20T23%3A59%3A59.0000000%2B02%3A00")
+      .Respond("application/json", ResponseMocks.Forecast);
 
     return new HttpClient(mockHttp);
   }
@@ -127,6 +130,28 @@ public class StromGedachtClientTest
     StatesAssertions(states);
   }
 
+  [Fact]
+  public void Forecast()
+  {
+    var client = new StromGedachtClient(GetMockedHttpClient());
+
+    var forecast = client.Forecast("70173", new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.FromHours(2)),
+      new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
+
+    ForecastAssertions(forecast);
+  }
+
+  [Fact]
+  public async void ForecastAsync()
+  {
+    var client = new StromGedachtClient(GetMockedHttpClient());
+
+    var forecast = await client.ForecastAsync("70173", new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.FromHours(2)),
+      new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
+
+    ForecastAssertions(forecast);
+  }
+
   private static void StatesAssertions(IReadOnlyList<RegionStatePeriod> states)
   {
     states.Should().HaveCount(5);
@@ -150,5 +175,18 @@ public class StromGedachtClientTest
     states[4].State.Should().Be(RegionState.Green);
     states[4].From.Should().Be(new DateTimeOffset(2023, 5, 18, 0, 0, 0, TimeSpan.FromHours(2)));
     states[4].To.Should().Be(new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
+  }
+
+  private static void ForecastAssertions(Forecast forecast)
+  {
+    forecast.Load.Should().HaveCount(2);
+    forecast.RenewableEnergy.Should().HaveCount(2);
+    forecast.ResidualLoad.Should().HaveCount(2);
+    forecast.SuperGreenThreshold.Should().HaveCount(2);
+
+    forecast.Load.First().DateTime.Should().Be(new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.Zero));
+    forecast.Load.First().Value.Should().Be(8453.12);
+    forecast.Load.Skip(1).First().DateTime.Should().Be(new DateTimeOffset(2023, 5, 14, 0, 1, 0, TimeSpan.Zero));
+    forecast.Load.Skip(1).First().Value.Should().Be(8455);
   }
 }

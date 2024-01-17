@@ -123,4 +123,51 @@ public class StromGedachtClient
       .ToList()
       .AsReadOnly();
   }
+
+  /// <summary>
+  ///   Get forecast in a specific time period
+  /// </summary>
+  /// <param name="zip"></param>
+  /// <param name="from"></param>
+  /// <param name="to"></param>
+  /// <returns>Region states in requested time period</returns>
+  public Forecast? Forecast(string zip, DateTimeOffset from, DateTimeOffset to) =>
+    ForecastAsync(zip, from, to).Result;
+
+  /// <summary>
+  ///   Get forecast in a specific time period
+  /// </summary>
+  /// <param name="zip"></param>
+  /// <param name="from"></param>
+  /// <param name="to"></param>
+  /// <returns>Region states in requested time period</returns>
+  public async Task<Forecast?> ForecastAsync(string zip, DateTimeOffset from, DateTimeOffset to)
+  {
+    var uri = ApiAddresses.Forecast(zip, from, to);
+
+    var response = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+
+    var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+    if (!response.IsSuccessStatusCode)
+      return null;
+
+    var dto = JsonSerializer.Deserialize<ForecastDto>(content,
+      new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+    if (dto is null)
+      return null;
+
+    return new Forecast
+    {
+      Load = dto.Load
+        .Select(fv => new ForecastValue { DateTime = fv.DateTime, Value = fv.Value }),
+      RenewableEnergy = dto.RenewableEnergy
+        .Select(fv => new ForecastValue { DateTime = fv.DateTime, Value = fv.Value }),
+      ResidualLoad = dto.ResidualLoad
+        .Select(fv => new ForecastValue { DateTime = fv.DateTime, Value = fv.Value }),
+      SuperGreenThreshold = dto.SuperGreenThreshold
+        .Select(fv => new ForecastValue { DateTime = fv.DateTime, Value = fv.Value })
+    };
+  }
 }
