@@ -188,5 +188,20 @@ public class StromGedachtClientTest
     forecast.Load.First().Value.Should().Be(8453.12);
     forecast.Load.Skip(1).First().DateTime.Should().Be(new DateTimeOffset(2023, 5, 14, 0, 1, 0, TimeSpan.Zero));
     forecast.Load.Skip(1).First().Value.Should().Be(8455);
+
+    forecast.RenewableEnergy.First().DateTime.Should().Be(new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.Zero));
+    forecast.RenewableEnergy.First().Value.Should().Be(8453.12);
+    forecast.RenewableEnergy.Skip(1).First().DateTime.Should().Be(new DateTimeOffset(2023, 5, 14, 0, 1, 0, TimeSpan.Zero));
+    forecast.RenewableEnergy.Skip(1).First().Value.Should().Be(8455);
+
+    forecast.ResidualLoad.First().DateTime.Should().Be(new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.Zero));
+    forecast.ResidualLoad.First().Value.Should().Be(8453.12);
+    forecast.ResidualLoad.Skip(1).First().DateTime.Should().Be(new DateTimeOffset(2023, 5, 14, 0, 1, 0, TimeSpan.Zero));
+    forecast.ResidualLoad.Skip(1).First().Value.Should().Be(8455);
+
+    forecast.SuperGreenThreshold.First().DateTime.Should().Be(new DateTimeOffset(2023, 5, 14, 0, 0, 0, TimeSpan.Zero));
+    forecast.SuperGreenThreshold.First().Value.Should().Be(8453.12);
+    forecast.SuperGreenThreshold.Skip(1).First().DateTime.Should().Be(new DateTimeOffset(2023, 5, 14, 0, 1, 0, TimeSpan.Zero));
+    forecast.SuperGreenThreshold.Skip(1).First().Value.Should().Be(8455);
   }
 }
