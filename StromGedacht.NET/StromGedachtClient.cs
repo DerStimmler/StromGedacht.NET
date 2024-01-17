@@ -53,25 +53,61 @@ public class StromGedachtClient
   }
 
   /// <summary>
-  ///   Get all region states in a specific time period
+  ///   Get region states in a specific time period
   /// </summary>
   /// <param name="zip"></param>
   /// <param name="from"></param>
   /// <param name="to"></param>
-  /// <returns>Region states in time requested time period</returns>
+  /// <returns>Region states in requested time period</returns>
   public IReadOnlyList<RegionStatePeriod> States(string zip, DateTimeOffset from, DateTimeOffset to) =>
     StatesAsync(zip, from, to).Result;
 
   /// <summary>
-  ///   Get all region states in a specific time period
+  ///   Get region states in a specific time period
   /// </summary>
   /// <param name="zip"></param>
   /// <param name="from"></param>
   /// <param name="to"></param>
-  /// <returns>Region states in time requested time period</returns>
+  /// <returns>Region states in requested time period</returns>
   public async Task<IReadOnlyList<RegionStatePeriod>> StatesAsync(string zip, DateTimeOffset from, DateTimeOffset to)
   {
     var uri = ApiAddresses.States(zip, from, to);
+
+    var response = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+
+    var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+    if (!response.IsSuccessStatusCode)
+      return Array.Empty<RegionStatePeriod>();
+
+    var dto = JsonSerializer.Deserialize<StatesDto>(content,
+      new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+    return dto!.States
+      .ToList()
+      .AsReadOnly();
+  }
+
+  /// <summary>
+  ///   Get region states in a specific time period
+  /// </summary>
+  /// <param name="zip"></param>
+  /// <param name="hoursInPast"></param>
+  /// <param name="hoursInFuture"></param>
+  /// <returns>Region states in requested time period</returns>
+  public IReadOnlyList<RegionStatePeriod> States(string zip, int hoursInPast, int hoursInFuture) =>
+    StatesAsync(zip, hoursInPast, hoursInFuture).Result;
+
+  /// <summary>
+  ///   Get region states in a specific time period
+  /// </summary>
+  /// <param name="zip"></param>
+  /// <param name="hoursInPast"></param>
+  /// <param name="hoursInFuture"></param>
+  /// <returns>Region states in requested time period</returns>
+  public async Task<IReadOnlyList<RegionStatePeriod>> StatesAsync(string zip, int hoursInPast, int hoursInFuture)
+  {
+    var uri = ApiAddresses.StatesRelative(zip, hoursInPast, hoursInFuture);
 
     var response = await _httpClient.GetAsync(uri).ConfigureAwait(false);
 

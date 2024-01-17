@@ -22,6 +22,9 @@ public class StromGedachtClientTest
     mockHttp.When(
         "https://api.stromgedacht.de/v1/states?zip=70173&from=2023-05-14T00%3A00%3A00.0000000%2B02%3A00&to=2023-05-20T23%3A59%3A59.0000000%2B02%3A00")
       .Respond("application/json", ResponseMocks.States);
+    mockHttp.When(
+        "https://api.stromgedacht.de/v1/statesRelative?zip=70173&hoursInPast=24&hoursInFuture=48")
+      .Respond("application/json", ResponseMocks.States);
 
     return new HttpClient(mockHttp);
   }
@@ -102,6 +105,26 @@ public class StromGedachtClientTest
       new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
 
     states.Should().BeEmpty();
+  }
+
+  [Fact]
+  public void StatesRelative()
+  {
+    var client = new StromGedachtClient(GetMockedHttpClient());
+
+    var states = client.States("70173", 24, 48);
+
+    StatesAssertions(states);
+  }
+
+  [Fact]
+  public async void StatesRelativeAsync()
+  {
+    var client = new StromGedachtClient(GetMockedHttpClient());
+
+    var states = await client.StatesAsync("70173", 24, 48);
+
+    StatesAssertions(states);
   }
 
   private static void StatesAssertions(IReadOnlyList<RegionStatePeriod> states)

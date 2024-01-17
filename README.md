@@ -62,6 +62,8 @@ This could happen if the zip code is invalid / not supported.
 You can fetch all states of a region for a specific time period by calling the `States`
 / `StatesAsync` methods and passing the zip code of the region, the start time and end time.
 
+Start and end time can be two dates:
+
 ```csharp
 var from = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.FromHours(2));
 var to = new DateTimeOffset(2023, 1, 3, 23, 59, 59, TimeSpan.FromHours(2));
@@ -74,6 +76,22 @@ var from = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.FromHours(2));
 var to = new DateTimeOffset(2023, 1, 3, 23, 59, 59, TimeSpan.FromHours(2));
 
 var states = await client.StatesAsync("70173", from, to);
+```
+
+or the hours relative to this moment:
+
+```csharp
+var hoursInPast = 24;
+var hoursInFuture  = 48;
+
+var states = client.States("70173", hoursInPast, hoursInFuture);
+```
+
+```csharp
+var hoursInPast = 24;
+var hoursInFuture  = 48;
+
+var states = await client.StatesAsync("70173", hoursInPast, hoursInFuture);
 ```
 
 If the api returns an error, this method returns an empty list.
