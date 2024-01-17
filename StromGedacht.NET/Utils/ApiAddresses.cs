@@ -14,4 +14,7 @@ internal static class ApiAddresses
 
     return $"states?zip={zip}&from={encodedFrom}&to={encodedTo}";
   }
+
+  internal static string StatesRelative(string zip, int hoursInPast, int hoursInFuture) =>
+    $"statesRelative?zip={zip}&hoursInPast={hoursInPast}&hoursInFuture={hoursInFuture}";
 }
