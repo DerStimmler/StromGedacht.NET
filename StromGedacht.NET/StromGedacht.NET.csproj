@@ -9,7 +9,7 @@
         <Title>StromGedacht.NET</Title>
         <Authors>Stimmler</Authors>
         <Description>C# client for the StromGedacht API</Description>
-        <Copyright>Copyright (c) Stimmler 2023</Copyright>
+        <Copyright>Copyright (c) Stimmler 2024</Copyright>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://github.com/DerStimmler/StromGedacht.NET</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -17,7 +17,7 @@
         <PackageTags>C#, dotnet, nuget, csharp, power, package, library, StromGedacht, api, MIT, free</PackageTags>
         <Company>Stimmler</Company>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageVersion>1.0.0</PackageVersion>
+        <PackageVersion>1.1.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
