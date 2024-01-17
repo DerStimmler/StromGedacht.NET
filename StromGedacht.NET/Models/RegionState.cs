@@ -6,6 +6,11 @@
 public enum RegionState
 {
   /// <summary>
+  ///   Bring consumption forward - use electricity now
+  /// </summary>
+  SuperGreen = -1,
+
+  /// <summary>
   ///   Normal operation - nothing to do
   /// </summary>
   Green = 1,

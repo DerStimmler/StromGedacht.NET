@@ -172,7 +172,7 @@ public class StromGedachtClientTest
     states[3].From.Should().Be(new DateTimeOffset(2023, 5, 17, 0, 0, 0, TimeSpan.FromHours(2)));
     states[3].To.Should().Be(new DateTimeOffset(2023, 5, 17, 23, 59, 59, TimeSpan.FromHours(2)));
 
-    states[4].State.Should().Be(RegionState.Green);
+    states[4].State.Should().Be(RegionState.SuperGreen);
     states[4].From.Should().Be(new DateTimeOffset(2023, 5, 18, 0, 0, 0, TimeSpan.FromHours(2)));
     states[4].To.Should().Be(new DateTimeOffset(2023, 5, 20, 23, 59, 59, TimeSpan.FromHours(2)));
   }
