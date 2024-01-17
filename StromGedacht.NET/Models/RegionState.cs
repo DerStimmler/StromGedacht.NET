@@ -18,6 +18,7 @@ public enum RegionState
   /// <summary>
   ///   Bring consumption forward - use electricity now
   /// </summary>
+  [Obsolete("Use SuperGreen instead")]
   Yellow = 2,
 
   /// <summary>
